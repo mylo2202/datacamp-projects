@@ -14,6 +14,9 @@
 # ---
 
 # %% [markdown]
+# # Investigating Netflix Movies
+
+# %% [markdown]
 # <center><img src="redpopcorn.jpg"></center>
 
 # %% [markdown]
@@ -40,6 +43,14 @@
 # | `duration` | Duration of the show in minutes |
 # | `description` | Description of the show |
 # | `genre` | Show genre |
+#
+# Perform exploratory data analysis on the `netflix_data.csv` data to understand more about movies from the 1990s decade.
+#
+# - What was the most frequent movie duration in the 1990s? Save an approximate answer as an integer called `duration` (use 1990 as the decade's start year).
+#
+# - A movie is considered short if it is less than 90 minutes. Count the number of **short action movies** released in the 1990s and save this integer as `short_movie_count`.
+#
+# Feel free to experiment after submitting the project!
 
 # %% executionCancelledAt lastScheduledRunId executionTime=63 lastExecutedAt=1776180349273 lastExecutedByKernel="e3a2a874-2b6b-489f-90dd-e7a0b1031e55" lastSuccessfullyExecutedCode="# Importing pandas and matplotlib\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\n# Read in the Netflix CSV as a DataFrame\nnetflix_df = pd.read_csv(\"netflix_data.csv\")"
 # Importing pandas and matplotlib

@@ -14,6 +14,8 @@
 # ---
 
 # %% [markdown]
+# # Exploring NYC Public School Test Result Scores
+#
 # ![New York City schoolbus](schoolbus.jpg)
 #
 # Photo by [Jannis Lucas](https://unsplash.com/@jannis_lucas) on [Unsplash](https://unsplash.com).
@@ -26,8 +28,27 @@
 # You have been provided with a dataset called `schools.csv`, which is previewed below.
 #
 # You have been tasked with answering three key questions about New York City (NYC) public school SAT performance.
+#
+# Which NYC schools have the best math results?
+#
+# - The best math results are at least 80% of the *maximum possible score of 800* for math.
+# - Save your results in a pandas DataFrame called `best_math_schools`, including `"school_name"` and `"average_math"` columns, sorted by `"average_math"` in descending order.
+#
+# What are the top 10 performing schools based on the combined SAT scores?
+#
+# - Save your results as a pandas DataFrame called `top_10_schools` containing the `"school_name"` and a new column named `"total_SAT"`, with results ordered by `"total_SAT"` in descending order (`"total_SAT"` being the sum of math, reading, and writing scores).
+#
+# Which single borough has the largest standard deviation in the combined SAT score?
+#
+# - Save your results as a pandas DataFrame called `largest_std_dev`.
+# - The DataFrame should contain one row, with:
+#     - `"borough"` - the name of the NYC borough with the largest standard deviation of `"total_SAT"`.
+#     - `"num_schools"` - the number of schools in the borough.
+#     - `"average_SAT"` - the mean of `"total_SAT"`.
+#     - `"std_SAT"` - the standard deviation of `"total_SAT"`.
+# - Round all numeric values to two decimal places.
 
-# %% id="bA5ajAmk7XH6" executionTime=50 lastSuccessfullyExecutedCode="# Re-run this cell \nimport pandas as pd\n\n# Read in the data\nschools = pd.read_csv(\"schools.csv\")\n\n# Preview the data\nschools.head()\n\n# Start coding here...\n# Add as many cells as you like..." executionCancelledAt lastExecutedAt=1781542373496 lastScheduledRunId outputsMetadata={"0": {"height": 550, "type": "dataFrame", "tableState": {}, "chartState": {"chartModel": {"modelType": "range", "chartId": "id-gg1p52i1qnr", "chartType": "groupedColumn", "chartThemeName": "datalabTheme", "chartOptions": {"common": {"animation": {"enabled": true}}}, "chartPalette": {"fills": ["#6568A0", "#43D7A4", "#4095DB", "#FACC5F", "#CAE279", "#F08083", "#5BCDF2", "#F099DC", "#965858", "#7DB64F", "#A98954"], "strokes": ["#6568A0", "#43D7A4", "#4095DB", "#FACC5F", "#CAE279", "#F08083", "#5BCDF2", "#F099DC", "#965858", "#7DB64F", "#A98954"], "up": {"fill": "#459d55", "stroke": "#1e652e"}, "down": {"fill": "#ef5452", "stroke": "#a82529"}, "neutral": {"fill": "#b5b5b5", "stroke": "#575757"}, "altUp": {"fill": "#5090dc", "stroke": "#2b5c95"}, "altDown": {"fill": "#ffa03a", "stroke": "#cc6f10"}, "altNeutral": {"fill": "#b5b5b5", "stroke": "#575757"}}, "cellRange": {"rowStartIndex": null, "rowStartPinned": null, "rowEndIndex": null, "rowEndPinned": null, "columns": ["school_name"]}, "switchCategorySeries": false, "suppressChartRanges": false, "unlinkChart": false, "version": "32.2.2"}, "rangeChartModel": {"rangeColumns": ["school_name"], "switchCategorySeries": false}, "pivotMode": {"enabled": false}, "activeTab": "data"}}} visualizeDataframe=false version="ag-charts-v1" lastExecutedByKernel="14f737c2-c782-44ab-b41a-b930c64b0494"
+# %% executionCancelledAt executionTime=50 id="bA5ajAmk7XH6" lastExecutedAt=1781542373496 lastExecutedByKernel="14f737c2-c782-44ab-b41a-b930c64b0494" lastScheduledRunId lastSuccessfullyExecutedCode="# Re-run this cell \nimport pandas as pd\n\n# Read in the data\nschools = pd.read_csv(\"schools.csv\")\n\n# Preview the data\nschools.head()\n\n# Start coding here...\n# Add as many cells as you like..." outputsMetadata={"0": {"chartState": {"activeTab": "data", "chartModel": {"cellRange": {"columns": ["school_name"], "rowEndIndex": null, "rowEndPinned": null, "rowStartIndex": null, "rowStartPinned": null}, "chartId": "id-gg1p52i1qnr", "chartOptions": {"common": {"animation": {"enabled": true}}}, "chartPalette": {"altDown": {"fill": "#ffa03a", "stroke": "#cc6f10"}, "altNeutral": {"fill": "#b5b5b5", "stroke": "#575757"}, "altUp": {"fill": "#5090dc", "stroke": "#2b5c95"}, "down": {"fill": "#ef5452", "stroke": "#a82529"}, "fills": ["#6568A0", "#43D7A4", "#4095DB", "#FACC5F", "#CAE279", "#F08083", "#5BCDF2", "#F099DC", "#965858", "#7DB64F", "#A98954"], "neutral": {"fill": "#b5b5b5", "stroke": "#575757"}, "strokes": ["#6568A0", "#43D7A4", "#4095DB", "#FACC5F", "#CAE279", "#F08083", "#5BCDF2", "#F099DC", "#965858", "#7DB64F", "#A98954"], "up": {"fill": "#459d55", "stroke": "#1e652e"}}, "chartThemeName": "datalabTheme", "chartType": "groupedColumn", "modelType": "range", "suppressChartRanges": false, "switchCategorySeries": false, "unlinkChart": false, "version": "32.2.2"}, "pivotMode": {"enabled": false}, "rangeChartModel": {"rangeColumns": ["school_name"], "switchCategorySeries": false}}, "height": 550, "tableState": {}, "type": "dataFrame"}} version="ag-charts-v1" visualizeDataframe=false
 # Re-run this cell 
 import pandas as pd
 
@@ -43,7 +64,7 @@ schools.head()
 # %% [markdown]
 # ### NYC schools with the best math results
 
-# %% executionCancelledAt executionTime=58 lastExecutedAt=1781542373554 lastExecutedByKernel="14f737c2-c782-44ab-b41a-b930c64b0494" lastScheduledRunId lastSuccessfullyExecutedCode="# Calculate the minimum math score for 'best' results (80% of 800)\nmin_math_score = 0.8 * 800\n\n# Filter for schools with average math scores greater than or equal to the minimum\nbest_math_schools = schools[schools['average_math'] >= min_math_score]\n\n# Select the required columns and sort by 'average_math' in descending order\nbest_math_schools = best_math_schools[['school_name', 'average_math']].sort_values(by='average_math', ascending=False)\n\n# Display the results\ndisplay(best_math_schools)" outputsMetadata={"0": {"height": 550, "type": "dataFrame", "tableState": {}}}
+# %% executionCancelledAt executionTime=58 lastExecutedAt=1781542373554 lastExecutedByKernel="14f737c2-c782-44ab-b41a-b930c64b0494" lastScheduledRunId lastSuccessfullyExecutedCode="# Calculate the minimum math score for 'best' results (80% of 800)\nmin_math_score = 0.8 * 800\n\n# Filter for schools with average math scores greater than or equal to the minimum\nbest_math_schools = schools[schools['average_math'] >= min_math_score]\n\n# Select the required columns and sort by 'average_math' in descending order\nbest_math_schools = best_math_schools[['school_name', 'average_math']].sort_values(by='average_math', ascending=False)\n\n# Display the results\ndisplay(best_math_schools)" outputsMetadata={"0": {"height": 550, "tableState": {}, "type": "dataFrame"}}
 # Calculate the minimum math score for 'best' results (80% of 800)
 min_math_score = 0.8 * 800
 
@@ -59,7 +80,7 @@ display(best_math_schools)
 # %% [markdown]
 # ### Top 10 Performing Schools by Combined SAT Score
 
-# %% executionCancelledAt executionTime=50 lastExecutedAt=1781542373604 lastExecutedByKernel="14f737c2-c782-44ab-b41a-b930c64b0494" lastScheduledRunId lastSuccessfullyExecutedCode="# Calculate 'total_SAT' for each school\nschools['total_SAT'] = schools['average_math'] + schools['average_reading'] + schools['average_writing']\n\n# Sort by 'total_SAT' in descending order and select the top 10\ntop_10_schools = schools.sort_values(by='total_SAT', ascending=False)[['school_name', 'total_SAT']].head(10)\n\n# Display the results\ndisplay(top_10_schools)" outputsMetadata={"0": {"height": 550, "type": "dataFrame", "tableState": {}}}
+# %% executionCancelledAt executionTime=50 lastExecutedAt=1781542373604 lastExecutedByKernel="14f737c2-c782-44ab-b41a-b930c64b0494" lastScheduledRunId lastSuccessfullyExecutedCode="# Calculate 'total_SAT' for each school\nschools['total_SAT'] = schools['average_math'] + schools['average_reading'] + schools['average_writing']\n\n# Sort by 'total_SAT' in descending order and select the top 10\ntop_10_schools = schools.sort_values(by='total_SAT', ascending=False)[['school_name', 'total_SAT']].head(10)\n\n# Display the results\ndisplay(top_10_schools)" outputsMetadata={"0": {"height": 550, "tableState": {}, "type": "dataFrame"}}
 # Calculate 'total_SAT' for each school
 schools['total_SAT'] = schools['average_math'] + schools['average_reading'] + schools['average_writing']
 
@@ -72,7 +93,7 @@ display(top_10_schools)
 # %% [markdown]
 # ### Borough with the Largest Standard Deviation in Combined SAT Score
 
-# %% executionCancelledAt executionTime=51 lastExecutedAt=1781542373655 lastExecutedByKernel="14f737c2-c782-44ab-b41a-b930c64b0494" lastScheduledRunId lastSuccessfullyExecutedCode="# Group by borough and calculate required statistics\nborough_stats = schools.groupby('borough')['total_SAT'].agg([\n    ('num_schools', 'count'),\n    ('average_SAT', 'mean'),\n    ('std_SAT', 'std')\n]).reset_index()\n\n# Find the borough with the largest standard deviation\nlargest_std_dev = borough_stats.sort_values(by='std_SAT', ascending=False).head(1)\n\n# Round numeric values to two decimal places\nlargest_std_dev = largest_std_dev.round(2)\n\n# Display the results\ndisplay(largest_std_dev)" outputsMetadata={"0": {"height": 550, "type": "dataFrame", "tableState": {}}}
+# %% executionCancelledAt executionTime=51 lastExecutedAt=1781542373655 lastExecutedByKernel="14f737c2-c782-44ab-b41a-b930c64b0494" lastScheduledRunId lastSuccessfullyExecutedCode="# Group by borough and calculate required statistics\nborough_stats = schools.groupby('borough')['total_SAT'].agg([\n    ('num_schools', 'count'),\n    ('average_SAT', 'mean'),\n    ('std_SAT', 'std')\n]).reset_index()\n\n# Find the borough with the largest standard deviation\nlargest_std_dev = borough_stats.sort_values(by='std_SAT', ascending=False).head(1)\n\n# Round numeric values to two decimal places\nlargest_std_dev = largest_std_dev.round(2)\n\n# Display the results\ndisplay(largest_std_dev)" outputsMetadata={"0": {"height": 550, "tableState": {}, "type": "dataFrame"}}
 # Group by borough and calculate required statistics
 borough_stats = schools.groupby('borough')['total_SAT'].agg([
     ('num_schools', 'count'),

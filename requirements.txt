@@ -3,3 +3,7 @@ matplotlib
 bs4
 jupytext
 seaborn
+matplotlib-inline
+scipy
+scikit-learn
+tensorflow

@@ -1,7 +1,8 @@
-Install dependencies:
+Create environment and install dependencies:
 
 ```bash
-source ./.venv/bin/activate
+python -m venv ~/.virtualenvs/venv
+source ~/.virtualenvs/venv/bin/activate
 pip install -r requirements.txt
 ```
 
